@@ -4,6 +4,16 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField]
+    private float _speed = 5;
+    [SerializeField]
+    private GameObject _laserPrefab;
+    [SerializeField]
+    private float _fireRate = 0.25f;
+    [SerializeField]
+    private float _nextFire = 0.0f;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -14,6 +24,11 @@ public class Player : MonoBehaviour
     void Update()
     {
         Movement();
+
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButton(0))
+        {
+            Shoot();           
+        }
     }
     private void Movement()
     {
@@ -45,6 +60,17 @@ public class Player : MonoBehaviour
         else if (transform.position.x > 8.2f)
         {
             transform.position = new Vector3(8.2f, transform.position.y, 0);
+        }
+    }
+
+    private void Shoot()
+    {
+        if (Time.time > _nextFire)
+        {
+            //Crea un laser en la posición del Player al pulsar Space
+            Instantiate(_laserPrefab, transform.position, Quaternion.identity);
+            //Sistema de cooldown
+            _nextFire = Time.time + _fireRate;
         }
     }
 }
