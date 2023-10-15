@@ -16,9 +16,8 @@ public class Player : MonoBehaviour
     private float _nextFire = 0.0f;
 
     public bool canTripleShoot = false;
-    
-   
 
+    public bool speedBoost = false;
 
     // Start is called before the first frame update
     void Start()
@@ -38,12 +37,22 @@ public class Player : MonoBehaviour
     }
     private void Movement()
     {
-        float horizontalInput = Input.GetAxis("Horizontal");
-        transform.Translate(Vector3.right * Time.deltaTime * _speed * horizontalInput);
+        if(speedBoost == true)
+        {
+            float horizontalInput = Input.GetAxis("Horizontal");
+            transform.Translate(Vector3.right * Time.deltaTime * _speed * 2f * horizontalInput);
 
-        float verticalInput = Input.GetAxis("Vertical");
-        transform.Translate(Vector3.up * Time.deltaTime * _speed * verticalInput);
+            float verticalInput = Input.GetAxis("Vertical");
+            transform.Translate(Vector3.up * Time.deltaTime * _speed * 2f * verticalInput);
+        }
+        else
+        {
+            float horizontalInput = Input.GetAxis("Horizontal");
+            transform.Translate(Vector3.right * Time.deltaTime * _speed * horizontalInput);
 
+            float verticalInput = Input.GetAxis("Vertical");
+            transform.Translate(Vector3.up * Time.deltaTime * _speed * verticalInput);
+        }
 
         //Restricciones límites de pantalla
         // if player position y > 0
@@ -97,5 +106,19 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(5.0F);
 
         canTripleShoot = false;
+    }
+
+    public void SpeedBoostPowerOn()
+    {
+        speedBoost = true;
+
+        StartCoroutine(SpeedBoostDownRutine());
+    }
+
+    public IEnumerator SpeedBoostDownRutine()
+    {
+        yield return new WaitForSeconds(5.0f);
+
+        speedBoost = false;
     }
 }
