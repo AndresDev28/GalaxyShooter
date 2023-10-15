@@ -9,9 +9,15 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject _laserPrefab;
     [SerializeField]
-    private float _fireRate = 0.25f;
+    private GameObject _tripleShootPrefab;
     [SerializeField]
+    private float _fireRate = 0.25f;
+    
     private float _nextFire = 0.0f;
+
+    public bool canTripleShoot = false;
+    
+   
 
 
     // Start is called before the first frame update
@@ -33,10 +39,10 @@ public class Player : MonoBehaviour
     private void Movement()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
-        transform.Translate(Vector3.right * Time.deltaTime * speed * horizontalInput);
+        transform.Translate(Vector3.right * Time.deltaTime * _speed * horizontalInput);
 
         float verticalInput = Input.GetAxis("Vertical");
-        transform.Translate(Vector3.up * Time.deltaTime * speed * verticalInput);
+        transform.Translate(Vector3.up * Time.deltaTime * _speed * verticalInput);
 
 
         //Restricciones límites de pantalla
@@ -67,10 +73,29 @@ public class Player : MonoBehaviour
     {
         if (Time.time > _nextFire)
         {
-            //Crea un laser en la posición del Player al pulsar Space
-            Instantiate(_laserPrefab, transform.position, Quaternion.identity);
+            if(canTripleShoot == true)
+            {
+                Instantiate(_tripleShootPrefab, transform.position, Quaternion.identity);              
+            }
+            else
+            {
+                Instantiate(_laserPrefab, transform.position + new Vector3(0, 0.92f, 0), Quaternion.identity);
+            }
+            
             //Sistema de cooldown
             _nextFire = Time.time + _fireRate;
         }
+    }
+    public void TripleShootPowerOn()
+    {
+        canTripleShoot = true;
+
+        StartCoroutine(TripleShootPowerDownRutine());
+    }
+    public IEnumerator TripleShootPowerDownRutine()
+    {
+        yield return new WaitForSeconds(5.0F);
+
+        canTripleShoot = false;
     }
 }
