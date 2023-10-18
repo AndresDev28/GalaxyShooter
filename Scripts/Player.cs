@@ -12,12 +12,19 @@ public class Player : MonoBehaviour
     private GameObject _tripleShootPrefab;
     [SerializeField]
     private float _fireRate = 0.25f;
-    
+    [SerializeField]
     private float _nextFire = 0.0f;
+    [SerializeField]
+    private GameObject _explosionPrefab;
+
+    
+    public int lives = 3;
 
     public bool canTripleShoot = false;
 
     public bool speedBoost = false;
+
+    public bool shielActivate = false;
 
     // Start is called before the first frame update
     void Start()
@@ -120,5 +127,28 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(5.0f);
 
         speedBoost = false;
+    }
+
+    public void ShieldsActivaded()
+    {
+        shielActivate = true;
+    }
+
+    public void LivesControl()
+    {
+        if(shielActivate == true)
+        {
+            shielActivate = false;
+        }
+        else
+        {
+            lives -= 1;
+        }
+        
+        if(lives < 1)
+        {
+            Destroy(gameObject);
+            Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+        }
     }
 }
