@@ -16,6 +16,8 @@ public class Player : MonoBehaviour
     private float _nextFire = 0.0f;
     [SerializeField]
     private GameObject _explosionPrefab;
+    [SerializeField]
+    private GameObject _shieldGameobjetc;
 
     
     public int lives = 3;
@@ -132,6 +134,7 @@ public class Player : MonoBehaviour
     public void ShieldsActivaded()
     {
         shielActivate = true;
+        _shieldGameobjetc.SetActive(true);
     }
 
     public void LivesControl()
@@ -139,6 +142,7 @@ public class Player : MonoBehaviour
         if(shielActivate == true)
         {
             shielActivate = false;
+            _shieldGameobjetc.SetActive(false);
         }
         else
         {
@@ -147,8 +151,8 @@ public class Player : MonoBehaviour
         
         if(lives < 1)
         {
-            Destroy(gameObject);
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+            Destroy(gameObject);
         }
     }
 }
