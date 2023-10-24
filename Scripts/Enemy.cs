@@ -53,12 +53,12 @@ public class Enemy : MonoBehaviour
             {
                 Destroy(other.transform.parent.gameObject);
             }
-            
+            _uiManager.UpdateScore();
             Destroy(other.gameObject);                      
         }
 
         Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-        _uiManager.UpdateScore();
+        
         Destroy(gameObject);
     }
 }
