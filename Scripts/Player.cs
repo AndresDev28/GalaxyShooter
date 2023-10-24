@@ -18,7 +18,8 @@ public class Player : MonoBehaviour
     private GameObject _explosionPrefab;
     [SerializeField]
     private GameObject _shieldGameobjetc;
-
+    [SerializeField]
+    private UI_Manager _uimanager;
     
     public int lives = 3;
 
@@ -32,6 +33,13 @@ public class Player : MonoBehaviour
     void Start()
     {
         transform.position = new Vector3(0, 0, 0);
+
+        _uimanager = GameObject.Find("Canvas").GetComponent<UI_Manager>();
+
+        if(_uimanager != null)
+        {
+            _uimanager.UpdateLives(lives);
+        }
     }
 
     // Update is called once per frame
@@ -147,6 +155,7 @@ public class Player : MonoBehaviour
         else
         {
             lives -= 1;
+            _uimanager.UpdateLives(lives);
         }
         
         if(lives < 1)

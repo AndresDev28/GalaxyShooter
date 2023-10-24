@@ -1,17 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UI_Manager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public Sprite[] lives;
+    public Image livesImageDisplay;
+
+    public void UpdateLives(int currentLives)
     {
-        
+        Debug.Log("Player Lives" + currentLives);
+        livesImageDisplay.sprite = lives[currentLives];
     }
 
-    // Update is called once per frame
-    void Update()
+    public void UpdateScore()
     {
         
     }
