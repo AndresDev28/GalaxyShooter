@@ -9,11 +9,11 @@ public class Enemy : MonoBehaviour
 
     public GameObject explosionPrefab;
     [SerializeField]
-   
+    private UI_Manager _uiManager;
     // Start is called before the first frame update
     void Start()
     {
-        
+        _uiManager = GameObject.Find("Canvas").GetComponent<UI_Manager>();
     }
 
     // Update is called once per frame
@@ -53,10 +53,12 @@ public class Enemy : MonoBehaviour
             {
                 Destroy(other.transform.parent.gameObject);
             }
+            
             Destroy(other.gameObject);                      
         }
 
         Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+        _uiManager.UpdateScore();
         Destroy(gameObject);
     }
 }
